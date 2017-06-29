@@ -102,13 +102,13 @@ const app = {
 */
 
     const item = document.createElement('li')
-    item.classList.add('cell','list-item')
+    item.classList.add('cell','list-item','animated')
 
       const divItem = document.createElement('div')
       divItem.classList.add('grid-x')
 
         const textDiv = document.createElement('div')
-        textDiv.classList.add('auto', 'cell')
+        textDiv.classList.add('auto', 'cell','text-div')
           textDiv.textContent = flick.name
           divItem.appendChild(textDiv)
 

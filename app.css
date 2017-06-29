@@ -5,10 +5,13 @@
 ul{
   list-style-type: none;
 }
-
+div.text-div{
+  margin-left: 10px;
+}
 div.button-group{
   margin-bottom: 0 !important;
 }
 button.favorited {
   background-color: #ff553a !important;
+  padding: 12.240px 25px !important;
 }
