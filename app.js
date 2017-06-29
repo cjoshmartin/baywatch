@@ -15,14 +15,22 @@ const app = {
     while(this.list.firstChild){ // removes the old state to the dom
       this.list.removeChild(this.list.firstChild)
     }
-    this.list.classList.remove('animated','fadeOutDown')
-    this.list.classList.add('animated','fadeInUp')
+    // this.list.classList.remove('animated','fadeOutDown')
+    // this.list.classList.add('animated','fadeInUp')
 
     this.flicks.map((lists, i)=>{ // push the new state to the dom
-      console.log(lists)
-      this.list.appendChild(this.renderListItem(lists))
+      // console.log(lists)
+      this.list.appendChild( this.renderListItem(lists))
     })
   },
+   sleep(milliseconds) {
+  var start = new Date().getTime();
+  for (var i = 0; i < 1e7; i++) {
+    if ((new Date().getTime() - start) > milliseconds){
+      break;
+    }
+  }
+},
   favorited(ev){
     const searchMovie =ev.target.dataset.flick
     // console.log(this.flicks)
@@ -49,7 +57,7 @@ const app = {
          this.flicks.splice(i,1)
     } }) // end of map
 
-    this.list.classList.add('animated','fadeOutDown')
+    // this.list.classList.add('animated','fadeOutDown')
     this.refresher()
   }, // end of remover
   moveUp(ev){
@@ -109,7 +117,7 @@ const app = {
 
         const textDiv = document.createElement('div')
         textDiv.classList.add('auto', 'cell','text-div')
-          textDiv.textContent = flick.name
+          textDiv.textContent = _.startCase(flick.name)
           divItem.appendChild(textDiv)
 
         const buttonGroupDiv = document.createElement('div')
@@ -149,6 +157,9 @@ const app = {
         divItem.appendChild(buttonGroupDiv)
 
       item.appendChild(divItem)
+      item.classList.add('animated','fadeInUp')
+
+
 
     return item
   }, // end of renderListItem
@@ -156,15 +167,14 @@ const app = {
   handleSubmit(ev) {
     ev.preventDefault()
     const f = ev.target
+
     const flick = {
       id: this.max + 1,
       name: f.flickName.value,
       isFavorited: false,
     } // end of flick obj
-
+    f.flickName.value =""
     this.flicks.push(flick) // puts the new flicks into the array
-    // memes
-    //     .sort((a,b) => (a.rating < b.rating)? 1 : -1)
     this.refresher()
     // console.log(this.flicks)
 
