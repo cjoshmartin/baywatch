@@ -1,0 +1,14 @@
+.list-item{
+  margin-top: 10px;
+  background-color: #bbb;
+}
+ul{
+  list-style-type: none;
+}
+
+div.button-group{
+  margin-bottom: 0 !important;
+}
+button.favorited {
+  background-color: #ff553a !important;
+}
