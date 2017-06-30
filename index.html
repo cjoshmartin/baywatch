@@ -22,6 +22,7 @@
               name="flickName"
               placeholder="Name a flick"
               autofocus
+              required
             >
             <div class="input-group-button">
               <button
@@ -36,7 +37,19 @@
       </div>
 
       <div class="medium-8 medium-offset-2 cell">
-        <ul id="flick-list"></ul>
+        <ul id="flick-list">
+          <li class="cell list-item template animated fadeInDown">
+            <div class="grid-x">
+                <div class="auto cell text-div" contenteditable="true">Tacos</div>
+                <div class="actions button-group cell shrink">
+                    <button class="favorite warning button">Favorite</button>
+                    <button class="remove alert button">Remove</button>
+                    <button class="move-up secondary button">Move Up</button>
+                    <button class="move-down secondary button">Move Down</button>
+                </div>
+            </div>
+        </li>
+        </ul>
       </div>
 
     </div>
