@@ -33,7 +33,9 @@ button.favorited {
 /* for the models */
 
 h3#login-text {
-  margin-top: -4rem;
+  margin-top: -10rem;
+  margin-left: 2rem;
+  font-weight: 500;
 }
 h1#title {
   font-family: "Bree Serif", serif;
@@ -80,10 +82,14 @@ h1#title {
 }
 .sign-up .form form {
   padding-top: 2rem;
+  padding-bottom: 2.5rem;
 }
 
 
-.sign-up.template {
+.login.template {
+  display: none;
+}
+#entry-bar{
   display: none;
 }
 
@@ -98,7 +104,7 @@ h1#title {
 
 @keyframes error {
   0% {
-    top: 12rem;
+    top: 14.3rem;
     margin-top: 9.4rem;
     z-index: -2;
   }
