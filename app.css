@@ -26,6 +26,91 @@ button.favorited {
       border-bottom-right-radius: 14px;
 }
 
-.template {
+/*.template {
   display: none;
+}*/
+
+/* for the models */
+
+h3#login-text {
+  margin-top: -4rem;
+}
+h1#title {
+  font-family: "Bree Serif", serif;
+  margin-left: 7rem;
+  margin-bottom: 10.5rem;
+  font-size: 8rem;
+}
+
+.form {
+  background-color: gray;
+  margin-top: 2.2rem;
+  padding-right: 3rem;
+  padding-bottom: 3.5rem;
+  border-radius: 8px;
+}
+
+.form.temple {
+  z-index: 1;
+  padding-top: 11rem;
+}
+.login .seth {
+  position: absolute;
+  margin-top: 1.3rem;
+  top: 13.3rem;
+  z-index: 3;
+  animation: error 6s ease-in-out 0s 1;
+}
+
+.sign-up .form {
+  padding-top: 10rem;
+  padding-bottom: 5.2rem;
+}
+.sign-up .form .input-group {
+  margin: 2rem 0;
+}
+.sign-up .form h3 {
+  margin-left: 1.5rem;
+}
+.sign-up .form .signup-button {
+  margin-left: 10px;
+}
+.sign-up .form .signup-button, .sign-up .form .login-button {
+  border-radius: 18px;
+}
+.sign-up .form form {
+  padding-top: 2rem;
+}
+
+
+.sign-up.template {
+  display: none;
+}
+
+.seth {
+  height: 11rem;
+}
+
+.sign-up .seth {
+  transform: rotate(180deg);
+  margin-top: -1.6rem;
+}
+
+@keyframes error {
+  0% {
+    top: 12rem;
+    margin-top: 9.4rem;
+    z-index: -2;
+  }
+  80% {
+    z-index: -2;
+  }
+  98% {
+    z-index: -2;
+  }
+  100% {
+    /*margin-top: 1.3rem;*/
+    /*top: 1rem;*/
+    z-index: 3;
+  }
 }
