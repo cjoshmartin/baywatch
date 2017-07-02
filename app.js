@@ -34,9 +34,9 @@ const app = {
         // console.log(login.querySelector(' form'));
         const loginForm = login.querySelector('form')
         loginForm.addEventListener('submit',app.signIn.bind(this))
-        // document
-        //   .querySelector('.signup-button')
-        //   .addEventListener('click',app.signUp.bind())
+        document
+          .querySelector('.signup-button')
+          .addEventListener('click',app.signUp.bind())
       }
     })
   }, // end of init
@@ -79,8 +79,7 @@ const app = {
     listItem.remove()
     parentItem.insertBefore(moveItem,preItem)
   }
-
-  },
+}, //end of moveUp
   moveDown(ev){
     // debugger
     const listItem =ev.target.closest('.list-item')
@@ -96,6 +95,38 @@ const app = {
     preItem.remove()
     parentItem.insertBefore(preItem,listItem)
     }
+  },
+  signUp(ev){
+    const login= document.querySelector('div.login')
+    login.classList.add('template')
+
+    const signup =document.querySelector('div.sign-up')
+    signup.classList.remove('template')
+
+    signup.querySelector('.login-button')
+      .addEventListener('click',function (ev) {
+        signup.classList.add('template')
+        login.classList.remove('template')
+      })
+    signup.querySelector('form')
+      .addEventListener('submit',function (ev) {
+        ev.preventDefault()
+        const f = ev.target;
+        if(f.newPassword1.value == f.newPassword2.value){
+          firebase.auth().createUserWithEmailAndPassword(ev.target.newEmail.value, f.newPassword2.value).catch(function(e){
+            alert(e.code +"\n" +e.message)
+          })
+          firebase.auth().currentUser.updateProfile({displayName: f.newName.value})
+          firebase.auth().onAuthStateChanged(function(users) {
+            users.sendEmailVerification();
+         });
+         window.location.reload(true);
+        }
+        else{
+          alert("ERROR! Passwords must match.")
+        }
+      })
+
   },
   signOut(){
     firebase.auth().signOut()
@@ -139,18 +170,23 @@ async signIn(ev){
   f=ev.target
   // console.log(f.emailInput.value)
   // console.log(f.passwordInput.value)
-await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordInput.value)
+await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordInput.value).catch(function(e) {alert(e.code +"\n" +e.message)})
   window.location.reload(true); // fixes a weird bug with empty items
 },
   handleSubmit(ev) {
     ev.preventDefault()
     const f = ev.target
     const uid =app.uid
-    firebase.database().ref().child('movies').child(uid).set({
-      id: this.max + 1,
-      name: f.flickName.value,
-      isFavorited: false,
-  })
+    try {
+        firebase.database().ref().child('movies').child(uid).set({
+          id: this.max + 1,
+          name: f.flickName.value,
+          isFavorited: false,
+      })
+    } catch (e) {
+      console.log(e.toString())
+    }
+
     const flick = {
       id: this.max + 1,
       name: f.flickName.value,
