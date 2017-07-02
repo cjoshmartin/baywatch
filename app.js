@@ -6,28 +6,39 @@ const app = {
     this.flicks = [] // stores the flicks and maybe a few chicks
     this.max = 0
     // debugger
+    const login= document.querySelector('div.login')
     await firebase.auth().onAuthStateChanged(function(user){
       // console.log(user)
       if(user){
+        app.uid = user.uid;
+        // console.log(app.uid)
+        login.classList.add('template')
         this.list = document.querySelector(selectors.listSelector)
-        this.template = document.querySelector(selectors.templateSelector)
+        app.template = document.querySelector(selectors.templateSelector)
         document
           .querySelector('#entry-bar').style.display= "inherit"
+
         document
           .querySelector('query')
         document
           .querySelector(selectors.formSelector) // takes in the form past in and selects it
-          .addEventListener('submit', this.handleSubmit.bind(this)) // adds a listion for when the button with the name `submit` is clicked, then makes a called to `handleSubmit`
+          .addEventListener('submit', app.handleSubmit.bind(this)) // adds a listion for when the button with the name `submit` is clicked, then makes a called to `handleSubmit`
+        document
+          .querySelector('.sign-out-button')
+          .addEventListener('click',app.signOut.bind(this))
       }
       else{
-        // debugger
-        const login= document.querySelector('div.login')
         login.classList.remove('template')
+        document
+          .querySelector('li.cell.list-item').classList.add('template')
         // console.log(login.querySelector(' form'));
         const loginForm = login.querySelector('form')
-        loginForm.addEventListener('submit',app.logging.bind(this))
+        loginForm.addEventListener('submit',app.signIn.bind(this))
+        // document
+        //   .querySelector('.signup-button')
+        //   .addEventListener('click',app.signUp.bind())
       }
-    }).bind(this)
+    })
   }, // end of init
   favorited(flick,ev){
     const listItem = ev.target
@@ -86,12 +97,19 @@ const app = {
     parentItem.insertBefore(preItem,listItem)
     }
   },
+  signOut(){
+    firebase.auth().signOut()
+    document
+      .querySelector('#entry-bar').style.display= "none"
+    document
+      .querySelector('li.cell.list-item').classList.add('template')
+  },
   /*
   * @desc - creates an entry of a flick
   * @returns - an instence of an li flick
   */
   renderListItem(flick) {
-    const item = this.template.cloneNode(true)
+    const item = app.template.cloneNode(true)
     item.classList.remove('template')
     item.dataset.id = flick.id
     item
@@ -115,25 +133,32 @@ const app = {
       .addEventListener('click', this.moveDown.bind(this))
     return item
   }, // end of renderListItem
-logging(ev){
+async signIn(ev){
   // console.log(ev)
   ev.preventDefault()
   f=ev.target
-  console.log(f.emailinput)
+  // console.log(f.emailInput.value)
+  // console.log(f.passwordInput.value)
+await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordInput.value)
+  window.location.reload(true); // fixes a weird bug with empty items
 },
   handleSubmit(ev) {
     ev.preventDefault()
     const f = ev.target
-
+    const uid =app.uid
+  //   firebase.database().ref().child('movies').child(uid).set({
+  //     id: this.max + 1,
+  //     name: f.flickName.value,
+  //     isFavorited: false,
+  // })
     const flick = {
       id: this.max + 1,
       name: f.flickName.value,
       isFavorited: false,
     } // end of flick obj
-    // f.flickName.value =""
-    this.flicks.unshift(flick) // puts the new flicks into the beginning of the array
-
-    const listItem = this.renderListItem(flick)
+    app.flicks.unshift(flick) // puts the new flicks into the beginning of the array
+    console.log(app.flicks);
+    const listItem = app.renderListItem(flick)
     this.list
     .insertBefore(listItem,this.list.firstElementChild)
     // console.log(this.flicks)

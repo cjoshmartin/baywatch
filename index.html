@@ -26,10 +26,10 @@
   <form>
     <div class="input-group">
       <span class="input-group-label"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></span>
-     <input type="email" class="email name="emailinput" input-group-field" placeholder="Email, please!" required autofocus autocomplete="on"/>
+     <input type="email" name="emailInput" class="email input-group-field" placeholder="Email, please!" required autofocus autocomplete="on"/>
     </div>
     <div class="input-group">
-<input type="password" class="password input-group-field" placeholder="Password?" required autocomplete="off"/>
+<input type="password" name="passwordInput" class="password input-group-field" placeholder="Password?" required autocomplete="off"/>
 </div>
     <div class="button-group">
 <button type="submit" class="login-button primary button"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
@@ -94,6 +94,7 @@
               >
                 Add flick
               </button>
+              <button class="sign-out-button warning button">Sign Out</button>
             </div>
           </div>
         </form>
