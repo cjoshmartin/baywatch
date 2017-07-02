@@ -26,9 +26,9 @@ button.favorited {
       border-bottom-right-radius: 14px;
 }
 
-/*.template {
+.template {
   display: none;
-}*/
+}
 
 /* for the models */
 
@@ -86,7 +86,7 @@ h1#title {
 }
 
 
-.login.template {
+.sign-up.template {
   display: none;
 }
 #entry-bar{

@@ -26,14 +26,14 @@
   <form>
     <div class="input-group">
       <span class="input-group-label"><i class="fa fa-envelope-open-o" aria-hidden="true"></i></span>
-     <input type="email" class="email input-group-field" placeholder="Email, please!" required autofocus autocomplete="on"/>
+     <input type="email" class="email name="emailinput" input-group-field" placeholder="Email, please!" required autofocus autocomplete="on"/>
     </div>
     <div class="input-group">
 <input type="password" class="password input-group-field" placeholder="Password?" required autocomplete="off"/>
 </div>
     <div class="button-group">
 <button type="submit" class="login-button primary button"><i class="fa fa-sign-in" aria-hidden="true"></i> Login</button>
-  <button type="submit" class="signup-button secondary button"><i class="fa fa-user-plus" aria-hidden="true"></i> Signup</button>
+  <button class="signup-button secondary button"><i class="fa fa-user-plus" aria-hidden="true"></i> Signup</button>
 </div>
   </form>
   </div>
@@ -100,11 +100,36 @@
       </div>
 
       <div class="medium-8 medium-offset-2 cell">
-        <ul id="flick-list"></ul>
+        <ul id="flick-list">
+          <li class="cell list-item template animated fadeInDown">
+            <div class="grid-x">
+                <div class="auto cell text-div" contenteditable="true">Tacos</div>
+                <div class="actions button-group cell shrink">
+                    <button class="favorite warning button">Favorite</button>
+                    <button class="remove alert button">Remove</button>
+                    <button class="move-up secondary button">Move Up</button>
+                    <button class="move-down secondary button">Move Down</button>
+                </div>
+            </div>
+        </li>
+        </ul>
       </div>
 
     </div>
-
+    <script src="https://www.gstatic.com/firebasejs/4.1.3/firebase.js"></script>
+    <script>
+      // Initialize Firebase
+      var config = {
+        apiKey: "AIzaSyCSxt8fxCKsXqzp-qLr0gdZSPrnFgSamWs",
+        authDomain: "xtern-bootcamp.firebaseapp.com",
+        databaseURL: "https://xtern-bootcamp.firebaseio.com",
+        projectId: "xtern-bootcamp",
+        storageBucket: "xtern-bootcamp.appspot.com",
+        messagingSenderId: "117184114251"
+      };
+      firebase.initializeApp(config);
+    </script>
+    <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
     <script src="app.js"></script>
   </body>
 </html>

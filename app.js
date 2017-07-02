@@ -2,24 +2,33 @@ const app = {
   /*
   * @param -takes in `selectors`,  which has a `selectors.formSelector` & `selectors.listSelector` in it
   */
-  init(selectors) {
+  async init(selectors) {
     this.flicks = [] // stores the flicks and maybe a few chicks
     this.max = 0
-    this.list = document.querySelector(selectors.listSelector)
-    this.template = document.querySelector(selectors.templateSelector)
-
-    document
-      .querySelector(selectors.formSelector) // takes in the form past in and selects it
-      .addEventListener('submit', this.handleSubmit.bind(this)) // adds a listion for when the button with the name `submit` is clicked, then makes a called to `handleSubmit`
+    // debugger
+    await firebase.auth().onAuthStateChanged(function(user){
+      // console.log(user)
+      if(user){
+        this.list = document.querySelector(selectors.listSelector)
+        this.template = document.querySelector(selectors.templateSelector)
+        document
+          .querySelector('#entry-bar').style.display= "inherit"
+        document
+          .querySelector('query')
+        document
+          .querySelector(selectors.formSelector) // takes in the form past in and selects it
+          .addEventListener('submit', this.handleSubmit.bind(this)) // adds a listion for when the button with the name `submit` is clicked, then makes a called to `handleSubmit`
+      }
+      else{
+        // debugger
+        const login= document.querySelector('div.login')
+        login.classList.remove('template')
+        // console.log(login.querySelector(' form'));
+        const loginForm = login.querySelector('form')
+        loginForm.addEventListener('submit',app.logging.bind(this))
+      }
+    }).bind(this)
   }, // end of init
-   sleep(milliseconds) {
-  var start = new Date().getTime();
-  for (var i = 0; i < 1e7; i++) {
-    if ((new Date().getTime() - start) > milliseconds){
-      break;
-    }
-  }
-},
   favorited(flick,ev){
     const listItem = ev.target
     // debugger
@@ -65,7 +74,7 @@ const app = {
     // debugger
     const listItem =ev.target.closest('.list-item')
     const parentItem = listItem.parentNode
-    
+
     if(parentItem.lastElementChild == listItem){
       console.log("You can't move it like that!!!");
     }
@@ -106,7 +115,12 @@ const app = {
       .addEventListener('click', this.moveDown.bind(this))
     return item
   }, // end of renderListItem
-
+logging(ev){
+  // console.log(ev)
+  ev.preventDefault()
+  f=ev.target
+  console.log(f.emailinput)
+},
   handleSubmit(ev) {
     ev.preventDefault()
     const f = ev.target
