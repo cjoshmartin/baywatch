@@ -146,11 +146,11 @@ await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordI
     ev.preventDefault()
     const f = ev.target
     const uid =app.uid
-  //   firebase.database().ref().child('movies').child(uid).set({
-  //     id: this.max + 1,
-  //     name: f.flickName.value,
-  //     isFavorited: false,
-  // })
+    firebase.database().ref().child('movies').child(uid).set({
+      id: this.max + 1,
+      name: f.flickName.value,
+      isFavorited: false,
+  })
     const flick = {
       id: this.max + 1,
       name: f.flickName.value,
