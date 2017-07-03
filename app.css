@@ -8,6 +8,11 @@
     background-color: black;
     color: white;
 }*/
+#username-text{
+  margin-left: 7rem;
+  margin-top: -10.5rem;
+  margin-bottom: 10.5rem;
+}
 ul{
   list-style-type: none;
 }
@@ -132,7 +137,7 @@ body{
   border-radius: 50%;
   overflow: hidden;
   padding: 5px;
-  margin-left: 45rem;
+  margin-left: 40rem;
   margin-right: auto;
   margin-top: 3.5rem;
   box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);

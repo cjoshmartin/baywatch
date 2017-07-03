@@ -6,12 +6,13 @@ const app = {
     app.flicks = [] // stores the flicks and maybe a few chicks
     app.max = 0
     app.runNumber =0
+
     let listItem;
     this.list = document.querySelector(selectors.listSelector)
     // debugger
     const login= document.querySelector('div.login')
     await firebase.auth().onAuthStateChanged(function(user){
-      // console.log(user)
+
       if(user){
         app.uid = firebase.auth().currentUser.uid;
         // console.log(app.uid)
@@ -153,10 +154,7 @@ const app = {
           firebase.auth().createUserWithEmailAndPassword(ev.target.newEmail.value, f.newPassword2.value).catch(function(e){
             alert(e.code +"\n" +e.message)
           })
-        //   firebase.auth().currentUser.updateProfile({displayName: f.newName.value})
-        //   firebase.auth().onAuthStateChanged(function(users) {
-        //     users.sendEmailVerification();
-        //  });
+
          window.location.reload(true);
         }
         else{
