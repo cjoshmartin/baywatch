@@ -5,6 +5,9 @@ const app = {
   async init(selectors) {
     app.flicks = [] // stores the flicks and maybe a few chicks
     app.max = 0
+    app.runNumber =0
+    let listItem;
+    this.list = document.querySelector(selectors.listSelector)
     // debugger
     const login= document.querySelector('div.login')
     await firebase.auth().onAuthStateChanged(function(user){
@@ -15,14 +18,29 @@ const app = {
         if (app.flicks.length <= 0)
         {
           firebase.database().ref('/movies/' + app.uid).once('value').then(function(snapshot) {
-           app.flicks.push(snapshot.val())
-           console.log(app.flicks)
+            if(snapshot.val() != null){
+              app.flicks= snapshot.val()
+              console.log(app.flicks)
+            }
+        }).then(function () {
+          if(app.flicks != ''){
+          app.max =app.flicks[app.flicks.length -1].id
+
+          listItem= app.flicks.map((item,i)=>{
+            const ilItem = app.renderListItem(item)
+            document
+            .querySelector(selectors.listSelector)
+              .appendChild(ilItem)
+
+        })
+      }
         });
 
       }
       console.log(app.flicks);
         login.classList.add('template')
-        this.list = document.querySelector(selectors.listSelector)
+
+
         app.template = document.querySelector(selectors.templateSelector)
         document
           .querySelector('#entry-bar').style.display= "inherit"
@@ -60,7 +78,11 @@ const app = {
          else{
            ev.target.textContent = "Favorite"
          }
-
+         try {
+             firebase.database().ref().child('movies').child(app.uid).set(this.flicks)
+         } catch (e) {
+           console.log(e.toString())
+         }
   },// end of favorited
   remover(flick,ev){
     // remove from screen
@@ -72,6 +94,12 @@ const app = {
     // remove from array
     const i = this. flicks.indexOf(flick)
     this.flicks.splice(i,1)
+    try {
+        firebase.database().ref().child('movies').child(app.uid).set(this.flicks)
+    } catch (e) {
+      console.log(e.toString())
+    }
+
   }, // end of remover
   moveUp(ev){
     const listItem =ev.target.closest('.list-item')
@@ -125,10 +153,10 @@ const app = {
           firebase.auth().createUserWithEmailAndPassword(ev.target.newEmail.value, f.newPassword2.value).catch(function(e){
             alert(e.code +"\n" +e.message)
           })
-          firebase.auth().currentUser.updateProfile({displayName: f.newName.value})
-          firebase.auth().onAuthStateChanged(function(users) {
-            users.sendEmailVerification();
-         });
+        //   firebase.auth().currentUser.updateProfile({displayName: f.newName.value})
+        //   firebase.auth().onAuthStateChanged(function(users) {
+        //     users.sendEmailVerification();
+        //  });
          window.location.reload(true);
         }
         else{
@@ -159,10 +187,16 @@ const app = {
     item
       .querySelector('button.favorite')
       .addEventListener('click',this.favorited.bind(this,flick))
+      if(flick.isFavorited){
+        item.querySelector('button.favorite').textContent = "😍"
+        item.querySelector('button.favorite').classList.add('favorited')
+      }
 
     item
       .querySelector('button.remove')
       .addEventListener('click',this.remover.bind(this,flick))
+
+
 
     item
       .querySelector('button.move-up')
@@ -183,35 +217,31 @@ await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordI
   window.location.reload(true); // fixes a weird bug with empty items
 },
   handleSubmit(ev) {
-    // debugger
     ev.preventDefault()
     const f = ev.target
-
     const flick = {
-      id: app.max ++,
+      id: ++app.max,
       name: f.flickName.value,
       isFavorited: false,
     } // end of flick obj
+    console.log(app.max);
 
-    // console.log(app.flicks.length)
-
-    console.log("tacos")
-
-
-
-    app.flicks.push(flick) // puts the new flicks into the beginning of the array
+    app.flicks.unshift(flick) // puts the new flicks into the beginning of the array
     const data = app.flicks
+    let listItem;
       try {
           firebase.database().ref().child('movies').child(app.uid).set(data)
       } catch (e) {
         console.log(e.toString())
       }
-    const listItem = app.renderListItem(flick)
-    this.list
-    .insertBefore(listItem,this.list.firstElementChild)
-    // console.log(this.flicks)
 
+         listItem = app.renderListItem(flick)
 
+    app.list
+    .insertBefore(listItem,app.list.firstElementChild)
+    console.log(app.flicks)
+
+        app.runNumber++
     f.reset()
   }, // end of handleSubmit
 } // end of the `app` object
