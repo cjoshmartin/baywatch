@@ -134,7 +134,7 @@ const app = {
     parentItem.insertBefore(preItem,listItem)
     }
   },
-  signUp(ev){
+  async signUp(ev){
     const login= document.querySelector('div.login')
     login.classList.add('template')
 
@@ -146,22 +146,21 @@ const app = {
         signup.classList.add('template')
         login.classList.remove('template')
       })
-    signup.querySelector('form')
+  await signup.querySelector('form')
       .addEventListener('submit',function (ev) {
+        debugger
         ev.preventDefault()
         const f = ev.target;
         if(f.newPassword1.value == f.newPassword2.value){
-          firebase.auth().createUserWithEmailAndPassword(ev.target.newEmail.value, f.newPassword2.value).catch(function(e){
+           firebase.auth().createUserWithEmailAndPassword(ev.target.newEmail.value, f.newPassword2.value).catch(function(e){
             alert(e.code +"\n" +e.message)
           })
-
-         window.location.reload(true);
+          signup.classList.add('template')
         }
         else{
           alert("ERROR! Passwords must match.")
         }
       })
-
   },
   signOut(){
     firebase.auth().signOut()
