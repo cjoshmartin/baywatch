@@ -3,15 +3,24 @@ const app = {
   * @param -takes in `selectors`,  which has a `selectors.formSelector` & `selectors.listSelector` in it
   */
   async init(selectors) {
-    this.flicks = [] // stores the flicks and maybe a few chicks
-    this.max = 0
+    app.flicks = [] // stores the flicks and maybe a few chicks
+    app.max = 0
     // debugger
     const login= document.querySelector('div.login')
     await firebase.auth().onAuthStateChanged(function(user){
       // console.log(user)
       if(user){
-        app.uid = user.uid;
+        app.uid = firebase.auth().currentUser.uid;
         // console.log(app.uid)
+        if (app.flicks.length <= 0)
+        {
+          firebase.database().ref('/movies/' + app.uid).once('value').then(function(snapshot) {
+           app.flicks.push(snapshot.val())
+           console.log(app.flicks)
+        });
+
+      }
+      console.log(app.flicks);
         login.classList.add('template')
         this.list = document.querySelector(selectors.listSelector)
         app.template = document.querySelector(selectors.templateSelector)
@@ -174,32 +183,35 @@ await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordI
   window.location.reload(true); // fixes a weird bug with empty items
 },
   handleSubmit(ev) {
+    // debugger
     ev.preventDefault()
     const f = ev.target
-    const uid =app.uid
-    try {
-        firebase.database().ref().child('movies').child(uid).set({
-          id: this.max + 1,
-          name: f.flickName.value,
-          isFavorited: false,
-      })
-    } catch (e) {
-      console.log(e.toString())
-    }
 
     const flick = {
-      id: this.max + 1,
+      id: app.max ++,
       name: f.flickName.value,
       isFavorited: false,
     } // end of flick obj
-    app.flicks.unshift(flick) // puts the new flicks into the beginning of the array
-    console.log(app.flicks);
+
+    // console.log(app.flicks.length)
+
+    console.log("tacos")
+
+
+
+    app.flicks.push(flick) // puts the new flicks into the beginning of the array
+    const data = app.flicks
+      try {
+          firebase.database().ref().child('movies').child(app.uid).set(data)
+      } catch (e) {
+        console.log(e.toString())
+      }
     const listItem = app.renderListItem(flick)
     this.list
     .insertBefore(listItem,this.list.firstElementChild)
     // console.log(this.flicks)
 
-    this.max ++
+
     f.reset()
   }, // end of handleSubmit
 } // end of the `app` object
