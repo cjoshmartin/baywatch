@@ -97,7 +97,8 @@
               placeholder="Name a Flick, Search a Flick"
               required
               autofocus
-              onkeyup=""
+              onkeyup="myFunction()"
+              id="myInput"
             >
             <div class="input-group-button">
               <button
@@ -146,7 +147,22 @@
     <script src="https://cdn.jsdelivr.net/lodash/4.17.4/lodash.min.js"></script>
     <script src="app.js"></script>
     <script>
-    // more scripts will go here 
+            function myFunction() {
+          var input, filter, ul, li, a, i;
+          input = document.getElementById("myInput");
+          filter = input.value.toUpperCase();
+          ul = document.getElementById("flick-list");
+          li = ul.getElementsByTagName("li");
+          for (i = 0; i < li.length; i++) {
+              a = li[i].getElementsByTagName("div")[0];
+              if (a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                  li[i].style.display = "";
+              } else {
+                  li[i].style.display = "none";
+
+              }
+          }
+      }
     </script>
   </body>
 </html>
