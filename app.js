@@ -15,13 +15,11 @@ const app = {
 
       if(user){
         app.uid = firebase.auth().currentUser.uid;
-        // console.log(app.uid)
         if (app.flicks.length <= 0)
         {
           firebase.database().ref('/movies/' + app.uid).once('value').then(function(snapshot) {
             if(snapshot.val() != null){
               app.flicks= snapshot.val()
-              console.log(app.flicks)
             }
         }).then(function () {
           if(app.flicks != ''){
@@ -32,15 +30,11 @@ const app = {
             document
             .querySelector(selectors.listSelector)
               .appendChild(ilItem)
-
         })
       }
         });
-
       }
-      console.log(app.flicks);
         login.classList.add('template')
-
 
         app.template = document.querySelector(selectors.templateSelector)
         document
@@ -59,7 +53,6 @@ const app = {
         login.classList.remove('template')
         document
           .querySelector('li.cell.list-item').classList.add('template')
-        // console.log(login.querySelector(' form'));
         const loginForm = login.querySelector('form')
         loginForm.addEventListener('submit',app.signIn.bind(this))
         document
@@ -85,13 +78,11 @@ const app = {
            console.log(e.toString())
          }
   },// end of favorited
+
   remover(flick,ev){
     // remove from screen
-    console.log(ev)
     const listItem =ev.target.closest('.list-item')
     listItem.remove()
-
-
     // remove from array
     const i = this. flicks.indexOf(flick)
     this.flicks.splice(i,1)
@@ -102,6 +93,7 @@ const app = {
     }
 
   }, // end of remover
+
   moveUp(ev){
     const listItem =ev.target.closest('.list-item')
     const parentItem = listItem.parentNode
@@ -134,6 +126,7 @@ const app = {
     parentItem.insertBefore(preItem,listItem)
     }
   },
+
   async signUp(ev){
     const login= document.querySelector('div.login')
     login.classList.add('template')
@@ -162,6 +155,12 @@ const app = {
         }
       })
   },
+async signIn(ev){
+  ev.preventDefault()
+  f=ev.target
+await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordInput.value).catch(function(e) {alert(e.code +"\n" +e.message)})
+  window.location.reload(true); // fixes a weird bug with empty items
+},
   signOut(){
     firebase.auth().signOut()
     document
@@ -188,13 +187,9 @@ const app = {
         item.querySelector('button.favorite').textContent = "😍"
         item.querySelector('button.favorite').classList.add('favorited')
       }
-
     item
       .querySelector('button.remove')
       .addEventListener('click',this.remover.bind(this,flick))
-
-
-
     item
       .querySelector('button.move-up')
       .addEventListener('click', this.moveUp.bind(this))
@@ -204,15 +199,6 @@ const app = {
       .addEventListener('click', this.moveDown.bind(this))
     return item
   }, // end of renderListItem
-async signIn(ev){
-  // console.log(ev)
-  ev.preventDefault()
-  f=ev.target
-  // console.log(f.emailInput.value)
-  // console.log(f.passwordInput.value)
-await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordInput.value).catch(function(e) {alert(e.code +"\n" +e.message)})
-  window.location.reload(true); // fixes a weird bug with empty items
-},
   handleSubmit(ev) {
     ev.preventDefault()
     const f = ev.target
@@ -221,7 +207,6 @@ await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordI
       name: f.flickName.value,
       isFavorited: false,
     } // end of flick obj
-    console.log(app.max);
 
     app.flicks.unshift(flick) // puts the new flicks into the beginning of the array
     const data = app.flicks
@@ -236,7 +221,6 @@ await firebase.auth().signInWithEmailAndPassword(f.emailInput.value, f.passwordI
 
     app.list
     .insertBefore(listItem,app.list.firstElementChild)
-    console.log(app.flicks)
 
         app.runNumber++
     f.reset()

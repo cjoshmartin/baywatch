@@ -4,10 +4,6 @@
   border-radius: 14px;
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
 }
-/*.list-item:nth-child(even){
-    background-color: black;
-    color: white;
-}*/
 #username-text{
   margin-left: 7rem;
   margin-top: -10.5rem;
@@ -163,4 +159,20 @@ body{
   height: 200px;
   position: relative;
   top: 40%;
+}
+
+@media (max-width: 600px) {
+  h1#title{
+    font-size: 2rem;
+    margin-bottom: 19rem;
+  }
+  .beach-sunset{
+    display: none;
+  }
+  .sun{
+    display: none;
+  }
+  .water{
+    display: none;
+  }
 }
