@@ -48,7 +48,7 @@ const app = {
         document
           .querySelector('.sign-out-button')
           .addEventListener('click',app.signOut.bind(this))
-      }
+      } // end of if statement
       else{
         login.classList.remove('template')
         document
@@ -58,8 +58,8 @@ const app = {
         document
           .querySelector('.signup-button')
           .addEventListener('click',app.signUp.bind())
-      }
-    })
+      } // end of else
+    })// end of firebase call
   }, // end of init
   favorited(flick,ev){
     const listItem = ev.target
